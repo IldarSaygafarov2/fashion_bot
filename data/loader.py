@@ -3,12 +3,12 @@ from aiogram.contrib.fsm_storage.memory import MemoryStorage
 
 from database.database import TableManager, TableUpdaterManager
 
-from .configs import TOKEN
+from .configs import TOKEN, PROXY_URL
 
 manager = TableManager()
 update_manager = TableUpdaterManager()
 storage = MemoryStorage()
 
 # переменная с помощью которой можно делать запросы к телеграму
-bot = Bot(TOKEN)
+bot = Bot(TOKEN, proxy=PROXY_URL)
 dp = Dispatcher(bot, storage=storage)
