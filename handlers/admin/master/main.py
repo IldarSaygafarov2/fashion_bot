@@ -3,6 +3,7 @@ from aiogram import types
 from data.filters import IsAdmin
 from data.loader import bot, dp
 from keyboards import default as kb
+from handlers.user.commands import admin_start
 from states.states import AdminMasterState, AdminMasterActionsState
 
 
@@ -13,9 +14,11 @@ async def admin_masters(message: types.Message):
 
 
 @dp.message_handler(IsAdmin(),
-                    lambda msg: msg.text in ("Добавить", "Удалить", "Изменить"),
+                    lambda msg: msg.text in ("Добавить", "Удалить", "Изменить", "Назад"),
                     state=AdminMasterState.start)
 async def masters_event(message: types.Message):
+    if message.text == "Назад":
+        await admin_start(message)
     if message.text.lower() == "добавить":
         await bot.send_message(
             message.from_user.id,

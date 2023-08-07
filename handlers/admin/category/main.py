@@ -2,6 +2,7 @@ from aiogram import types
 
 from data.filters import IsAdmin
 from data.loader import dp, bot
+from handlers.user.commands import admin_start
 from keyboards import default as kb
 from states.states import AdminCategoryState
 
@@ -11,8 +12,10 @@ async def admin_category(message: types.Message):
     await bot.send_message(message.from_user.id, "Выберите действие с категориями", reply_markup=kb.admin_events_menu())
 
 
-@dp.message_handler(IsAdmin(), lambda msg: msg.text in ("Добавить", "Удалить", "Изменить"))
+@dp.message_handler(IsAdmin(), lambda msg: msg.text in ("Добавить", "Удалить", "Изменить", "Назад"))
 async def category_event(message: types.Message):
+    if message.text == "Назад":
+        await admin_start(message)
     if message.text.lower() == "добавить":
         await bot.send_message(
             message.from_user.id,

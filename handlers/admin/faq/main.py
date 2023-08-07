@@ -3,6 +3,7 @@ from aiogram.dispatcher import FSMContext
 
 from data.filters import IsAdmin
 from data.loader import bot, dp, manager
+from handlers.user.commands import admin_start
 from keyboards import default as kb
 from states.states import FAQActionState
 
@@ -19,10 +20,12 @@ async def admin_faq(message: types.Message):
 
 @dp.message_handler(
     IsAdmin(),
-    lambda msg: msg.text in ("Добавить", "Удалить", "Изменить"),
+    lambda msg: msg.text in ("Добавить", "Удалить", "Изменить", "Назад"),
     state=FAQActionState.start,
 )
 async def masters_event(message: types.Message):
+    if message.text == "Назад":
+        await admin_start(message)
     if message.text.lower() == "добавить":
         await bot.send_message(
             message.from_user.id,

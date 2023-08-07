@@ -86,6 +86,9 @@ def admin_events_menu() -> ReplyKeyboardMarkup:
             KeyboardButton(text="Удалить"),
         ]
     )
+    markup.row(
+        KeyboardButton(text="Назад")
+    )
     return markup
 
 

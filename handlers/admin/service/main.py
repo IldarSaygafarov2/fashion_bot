@@ -2,6 +2,7 @@ from aiogram import types
 
 from data.filters import IsAdmin
 from data.loader import bot, dp, manager
+from handlers.user.commands import admin_start
 from keyboards import default as kb
 from states.states import (AdminAddServiceState, AdminServiceState)
 
@@ -17,6 +18,8 @@ async def admin_service(message: types.Message):
                     state=AdminServiceState.start)
 async def service_event(message: types.Message):
     services = manager.service.get_services_name()
+    if message.text == "Назад":
+        await admin_start(message)
     if message.text.lower() == "добавить":
         await bot.send_message(
             message.from_user.id,
